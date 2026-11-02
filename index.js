@@ -32,6 +32,20 @@ app.get('/komik', async (req, res) => {
     }
 });
 
+// Endpoint untuk mengambil detail komik berdasarkan ID
+app.get('/komik/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const komik = await db.Komik.findByPk(id);
+        if (!komik) {
+            return res.status(404).json({ message: 'Komik tidak ditemukan' });
+        }
+        res.status(200).json(komik);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 db.sequelize.sync()
     .then(() => {
         app.listen(PORT, () => {
