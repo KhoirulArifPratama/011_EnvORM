@@ -22,6 +22,16 @@ app.post('/komik', async (req, res) => {
     }
 });
 
+// Endpoint untuk mengambil seluruh daftar komik
+app.get('/komik', async (req, res) => {
+    try {
+        const komik = await db.Komik.findAll();
+        res.status(200).json(komik);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 db.sequelize.sync()
     .then(() => {
         app.listen(PORT, () => {
