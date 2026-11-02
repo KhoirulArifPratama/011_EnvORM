@@ -12,6 +12,16 @@ app.get('/', (req, res) => {
     res.json({ message: 'Selamat datang di API Perpustakaan Komik' });
 });
 
+// Endpoint untuk menambahkan komik baru
+app.post('/komik', async (req, res) => {
+    try {
+        const komik = await db.Komik.create(req.body);
+        res.status(201).json(komik);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 db.sequelize.sync()
     .then(() => {
         app.listen(PORT, () => {
